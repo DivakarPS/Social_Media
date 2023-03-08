@@ -1,5 +1,8 @@
 const profile = async(req, res) => {
-    return res.end('<h1>User Profile of Codial</h1>');
+    return res.render('profile',{
+        body : 'This is user profile page',
+        title: 'User-Profile'
+    });
 }
 
 module.exports = {

@@ -1,7 +1,16 @@
 const home = async (req, res) => {
-    return res.end('<h1>Express is up for codeial</h1>');
+    return res.render('home',{
+        title: "HOME"
+    });
+}
+
+const UserHome = async (req, res) => {
+    return res.render('home',{
+        title: 'User-Home'
+    });
 }
 
 module.exports = {
-    home
+    home,
+    UserHome
 }
