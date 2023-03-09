@@ -21,39 +21,31 @@ const signIn = async (req, res) => {
 
 
 const create = async (req, res) => {
-     console.log(req.body);
     if(req.body.password!=req.body.confirm_password){
         return res.redirect('back');
     }
-    // User.findOne({email:req.body.email}, (err, user) => {
-    //     if(err){
-    //         console.log("error in creating user:",err);
-    //         return;
-    //     }
-    //     if(!user){
-    //         User.create(req.body, (err, user) => {
-    //             if(err){
-    //                 console.log("error in creating user:",err);
-    //                 return; 
-    //             }
-    //             return res.redirect('/users/sign-in');
-    //         })
-    //     }
-    //     else{
-    //         return res.redirect('back');
-    //     }
-    // });
-    const user = User.findOne({email: req.body.email});
+    const user = await User.findOne({email: req.body.email});
     if(!user){
-        const res = User.create(req.body);
+        const response = await User.create(req.body);
+        console.log(response);
         return res.redirect('/users/sign-in');
     } 
-            return res.redirect('/users/sign-in');
+    return res.redirect('/users/sign-in');
 
 }
 
 const createSession = async (req, res) => {
+    const user = await User.findOne({email: req.body.email});
+    // console.log(user);
+    if(!user)
+    return res.redirect('back');
 
+    if(user.password!=req.body.password)
+    return res.redirect('back');
+
+    res.cookie('user_id',user.id);
+    // console.log(res.cookie);
+    return res.redirect('/users/profile');
 }
 
 module.exports = {
@@ -61,5 +53,5 @@ module.exports = {
     signIn,
     signUp,
     create,
-
+    createSession
 }
