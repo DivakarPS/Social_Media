@@ -7,11 +7,13 @@ const create = async (req, res) => {
         user: req.user._id,
         post: req.body.post
     });
-    console.log(req.body);
+    // console.log(req.body);
     const post = await Post.findById(req.body.post);
-    console.log(post," is the post");
+    
+    // console.log(post," is the post");
     if(post){
         post.comments.push(response);
+        req.flash('success','Added Comment');
         post.save();
     }
     return res.redirect('back');
@@ -25,6 +27,7 @@ const destroy = async (req, res) => {
         await Comment.findByIdAndDelete(req.params.id);
 
         await Post.findByIdAndUpdate(postId,{$pull : {comments:req.params.id}});
+        req.flash('success','Removed Comment');
     }
     return res.redirect('back');
 }

@@ -58,14 +58,17 @@ const createSession = async (req, res) => {
 
     // res.cookie('user_id',user.id);
     // console.log(res.cookie);
+    req.flash('success', 'Logged in succesfully');
     return res.redirect('/');
 }
 
 const logout = async (req, res, next) => {
     // req.logout();
     // return res.redirect('/');
+   
     req.logout(function(err) {
         if (err) { return next(err); }
+        req.flash('success', 'you are logged out!');
         res.redirect('/');
       });
 
